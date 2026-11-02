@@ -3,7 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const MONGO_URL = 'mongodb://127.0.0.1:27017/wanderlust'; 
+const MONGO_URL = process.env.ATLASDB_URL || 'mongodb://127.0.0.1:27017/wanderlust'; 
+
 const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
@@ -11,6 +12,7 @@ const ejsMate = require('ejs-mate');
 const ExpressError = require('./utils/ExpressError.js');
 //for session handling
 const session= require("express-session");
+const MongoStore = require("connect-mongo").default;
 //for flash
 const flash= require("connect-flash");
 //for router
@@ -61,10 +63,21 @@ app.engine('ejs', ejsMate);
 //for serving static files
 app.use(express.static(path.join(__dirname, '/public')));
 
-
+const store= MongoStore.create({
+    mongoUrl: MONGO_URL,
+    crypto: {
+        secret: process.env.SECRET,
+    },
+    touchAfter: 24*3600, // time period in seconds
+});
+//for error handling in mongo session store
+store.on("error", (err)=>{
+    console.log("Error in mongo session store", err);
+});
 //session options
 const sessionOptions={
-    secret:"mysupersecretcode",
+    store,
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie:{
