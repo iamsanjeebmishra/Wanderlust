@@ -10,7 +10,7 @@ body{
     height: 5rem;
     background-color: white;
 }
-.fa-web-awesome{
+.fa-won-sign{
 color:#fe424d;
 font-size: 2rem;
 }
@@ -105,4 +105,40 @@ justify-content: center;
 #map { 
     height: 400px;
     width: 92vh;
+}
+/* Tax toggle - pink active state */
+.tax-toggle .form-check-input:checked {
+    background-color: #FF385C !important;
+    border-color: #FF385C !important;
+}
+
+/* Pink focus instead of Bootstrap blue */
+.tax-toggle .form-check-input:focus {
+    border-color: #FF385C;
+    box-shadow: 0 0 0 0.2rem rgba(255, 56, 92, 0.25);
+}
+
+/* Pink checked switch thumb */
+.tax-toggle .form-check-input:checked {
+    background-color: #FF385C !important;
+}
+/* Footer social media icons */
+.f-info-socials a {
+    color: #FF385C;
+    text-decoration: none;
+}
+
+.f-info-socials i {
+    font-size: 1.2rem;
+    margin-right: 1rem;
+    color: #FF385C !important;
+    transition: color 0.2s ease;
+}
+
+/* Hover effect */
+.f-info-socials a:hover {
+    color: #e31c5f;
+}
+.f-info-links {
+    gap: 1rem;
 }

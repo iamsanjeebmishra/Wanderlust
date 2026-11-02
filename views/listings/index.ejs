@@ -15,8 +15,17 @@
   .filter {
     text-align: center;
     margin: 0;
-    opacity: 0.8;
+    opacity: 0.75;
     flex-shrink: 0;
+    text-decoration: none;
+    color: #222;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+  }
+
+  .filter i {
+    color: #fe424d;
   }
 
   .filter:hover {
@@ -28,6 +37,13 @@
     margin-bottom: 0;
   }
 
+  .filter.active {
+    opacity: 1;
+    color: #fe424d;
+    border-bottom: 2px solid #fe424d;
+    font-weight: 600;
+  }
+
   .tax-info {
     display: none;
   }
@@ -35,13 +51,14 @@
   .tax-toggle {
     border: 1px solid #ccc;
     border-radius: 1rem;
-    height: 3.5rem;
+    height: 3rem;
     padding: 1rem;
     margin: 0;
     display: flex;
     align-items: center;
     white-space: nowrap;
     flex-shrink: 0;
+    margin-bottom: 1rem;
   }
 </style>
 
@@ -50,55 +67,65 @@
   <!-- Filters -->
   <div id="filters">
 
-    <div class="filter">
+    <a href="/listings?category=trending"
+       class="filter <%= category === 'trending' ? 'active' : '' %>">
       <i class="fa-solid fa-fire"></i>
       <p>Trending</p>
-    </div>
+    </a>
 
-    <div class="filter">
+    <a href="/listings?category=rooms"
+       class="filter <%= category === 'rooms' ? 'active' : '' %>">
       <i class="fa-solid fa-bed"></i>
       <p>Rooms</p>
-    </div>
+    </a>
 
-    <div class="filter">
+    <a href="/listings?category=iconic-cities"
+       class="filter <%= category === 'iconic-cities' ? 'active' : '' %>">
       <i class="fa-solid fa-mountain-city"></i>
       <p>Iconic Cities</p>
-    </div>
+    </a>
 
-    <div class="filter">
+    <a href="/listings?category=mountains"
+       class="filter <%= category === 'mountains' ? 'active' : '' %>">
       <i class="fa-solid fa-mountain"></i>
       <p>Mountains</p>
-    </div>
+    </a>
 
-    <div class="filter">
+    <a href="/listings?category=castles"
+       class="filter <%= category === 'castles' ? 'active' : '' %>">
       <i class="fa-brands fa-fort-awesome"></i>
       <p>Castles</p>
-    </div>
+    </a>
 
-    <div class="filter">
+    <a href="/listings?category=pools"
+       class="filter <%= category === 'pools' ? 'active' : '' %>">
       <i class="fa-solid fa-person-swimming"></i>
       <p>Awesome Pools</p>
-    </div>
+    </a>
 
-    <div class="filter">
+    <a href="/listings?category=camping"
+       class="filter <%= category === 'camping' ? 'active' : '' %>">
       <i class="fa-solid fa-tents"></i>
       <p>Camping</p>
-    </div>
+    </a>
 
-    <div class="filter">
+    <a href="/listings?category=nature"
+       class="filter <%= category === 'nature' ? 'active' : '' %>">
       <i class="fa-solid fa-tree"></i>
       <p>Nature</p>
-    </div>
+    </a>
 
-    <div class="filter">
+    <a href="/listings?category=arctic"
+       class="filter <%= category === 'arctic' ? 'active' : '' %>">
       <i class="fa-regular fa-snowflake"></i>
       <p>Arctic</p>
-    </div>
+    </a>
 
-    <div class="filter">
+    <a href="/listings?category=beach"
+       class="filter <%= category === 'beach' ? 'active' : '' %>">
       <i class="fa-solid fa-umbrella-beach"></i>
       <p>Beach</p>
-    </div>
+    </a>
 
     <!-- Tax Toggle -->
     <div class="tax-toggle">
@@ -120,6 +147,16 @@
 
   <!-- Listings -->
   <div class="row mt-3">
+
+    <% if (allListings.length === 0) { %>
+
+      <div class="col-12 text-center mt-5">
+        <h4>No listings found!</h4>
+        <p>Try another search or category.</p>
+        <a href="/listings" class="btn btn-dark">View all listings</a>
+      </div>
+
+    <% } %>
 
     <% for (let listing of allListings) { %>
 

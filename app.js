@@ -120,7 +120,14 @@ app.use((req, res, next)=>{
 // });
 
 
+// Privacy and Terms pages
+app.get("/privacy", (req, res) => {
+    res.render("listings/privacy.ejs");
+});
 
+app.get("/terms", (req, res) => {
+    res.render("listings/terms.ejs");
+});
 
 
 //routes

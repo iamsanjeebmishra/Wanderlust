@@ -1,3 +1,4 @@
+
 const express = require('express');
 const router= express.Router();
 const Listing = require('../models/listing.js');
@@ -22,13 +23,45 @@ const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
-//index route
+
+//index route - Search and Category Filtering
 router.get("/", wrapAsync(async (req, res) => {
-  const allListings = await Listing.find({});
-  //console.log(allListings);
-    console.log(allListings[0].image);
-  res.render("listings/index.ejs", { allListings });
+
+  const { search, category } = req.query;
+
+  let filter = {};
+
+  // Search functionality
+  if (search && search.trim() !== "") {
+
+    const searchRegex = new RegExp(
+      search.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+      "i"
+    );
+
+    filter.$or = [
+      { title: searchRegex },
+      { description: searchRegex },
+      { location: searchRegex },
+      { country: searchRegex }
+    ];
+  }
+
+  // Category filtering
+  if (category) {
+    filter.category = category;
+  }
+
+  const allListings = await Listing.find(filter);
+
+  res.render("listings/index.ejs", {
+    allListings,
+    search: search || "",
+    category: category || ""
+  });
+
 }));
+
 
 //new & create  route
 router.get("/new",isLoggedIn, (req, res) => {

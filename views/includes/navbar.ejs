@@ -1,15 +1,16 @@
 
 <style>
   .search-btn {
-    background-color: #fe424d;
+    background-color: #FF385C;
     color: white;
     border-radius: 25px;
     padding: 0 1rem;
     white-space: nowrap;
+    border: none;
   }
 
   .search-btn:hover {
-    background-color: #fe424d;
+    background-color: #e31c5f;
     color: white;
   }
 
@@ -29,6 +30,30 @@
     transform: translateX(-50%);
   }
 
+  /* Logo alignment */
+  .navbar-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #FF385C;
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .navbar-brand:hover {
+    color: #FF385C;
+  }
+
+  .navbar-brand i {
+    color: #FF385C;
+    font-size: 2rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+  }
+
   @media (max-width: 767px) {
     .navbar-search {
       position: static;
@@ -41,6 +66,14 @@
       font-size: 0.8rem;
     }
   }
+  .navbar-nav {
+  align-items: center;
+}
+
+.navbar-nav .nav-link {
+  display: flex;
+  align-items: center;
+}
 </style>
 
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
@@ -49,7 +82,8 @@
 
     <!-- Logo -->
     <a class="navbar-brand" href="/listings">
-      <i class="fa-solid fa-web-awesome"></i>
+      <i class="fa-solid fa-won-sign"></i>
+      <span>Wanderlust</span>
     </a>
 
     <!-- Mobile Toggle -->
@@ -66,17 +100,31 @@
 
       <!-- Explore -->
       <div class="navbar-nav">
-        <a class="nav-link" href="/listings">Explore</a>
+        <a class="nav-link" href="/listings"> <b>Explore all</b></a>
       </div>
 
       <!-- Center Search -->
-      <form class="d-flex navbar-search" role="search">
+      <form
+        class="d-flex navbar-search"
+        role="search"
+        action="/listings"
+        method="GET"
+      >
         <input
           class="form-control me-2 search-input"
           type="search"
+          name="search"
+          value="<%= typeof search !== 'undefined' ? search : '' %>"
           placeholder="Search destination"
-    
         >
+
+        <% if (typeof category !== 'undefined' && category) { %>
+          <input
+            type="hidden"
+            name="category"
+            value="<%= category %>"
+          >
+        <% } %>
 
         <button class="btn search-btn" type="submit">
           <i class="fa-solid fa-magnifying-glass"></i>
@@ -88,9 +136,8 @@
       <div class="navbar-nav ms-auto">
 
         <a class="nav-link" href="/listings/new">
-          Airbnb your home
+          <b>Become a host</b>
         </a>
-
         <% if (!currUser) { %>
 
           <a class="nav-link" href="/signup">
