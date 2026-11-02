@@ -141,7 +141,10 @@ app.get("/privacy", (req, res) => {
 app.get("/terms", (req, res) => {
     res.render("listings/terms.ejs");
 });
-
+//home route
+app.get("/", (req, res) => {
+    res.redirect("/listings");
+});
 
 //routes
 app.use("/listings", listingsRouter);
